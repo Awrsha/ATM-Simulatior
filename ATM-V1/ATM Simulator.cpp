@@ -7,6 +7,8 @@
 #include <cstdlib>
 #include <cstring>
 #include <random>
+#include <spdlog/spdlog.h>
+#include <spdlog/sinks/basic_file_sink.h>
 
 class User {
 public:
@@ -125,10 +127,15 @@ std::string generateRandomKey(int length = 16) {
 }
 
 int main() {
+    // Initialize the logger
+    auto logger = spdlog::basic_logger_mt("banking_logger", "banking_log.txt");
+    spdlog::set_default_logger(logger);
+
     sf::RenderWindow window(sf::VideoMode(800, 600), "Banking System");
     sf::Font font;
     if (!font.loadFromFile("arial.ttf")) {
         std::cerr << "Could not load font file\n";
+        spdlog::error("Failed to load font file.");
         return 1;
     }
 
@@ -136,7 +143,7 @@ int main() {
     title.setPosition(sf::Vector2f(250, 50));
 
     sf::Text instruction("Press L to log in, C to create an account, D to deposit money, W to withdraw money, T to transfer money, or Q to quit", font, 20);
-    instruction.setPosition(sf::Vector2f(50, 150));
+    instruction.setPosition(sf::Vector2f(50, 150);
 
     AccountDatabase accounts;
     std::unordered_map<std::string, User> users;
@@ -171,7 +178,7 @@ int main() {
                     sf::Text inputUsernameText("", font, 20);
                     inputUsernameText.setPosition(sf::Vector2f(300, 200));
                     sf::Text inputPasswordText("", font, 20);
-                    inputPasswordText.setPosition(sf::Vector2f(300, 250));
+                    inputPasswordText.setPosition(sf::Vector2f(300, 250);
 
                     bool inputting = true;
                     while (inputting) {
@@ -202,7 +209,13 @@ int main() {
                                         if (users.find(username) != users.end() && users[username].login(password)) {
                                             currentUser = &users[username];
                                             inputting = false;
+                                        } else {
+                                            std::cerr << "Login failed: Invalid username or password." << std::endl;
+                                            spdlog::error("Login failed: Invalid username or password.");
                                         }
+                                    } else {
+                                        std::cerr << "Login failed: Please enter both username and password." << std::endl;
+                                        spdlog::error("Login failed: Please enter both username and password.");
                                     }
                                 } else {
                                     if (inputUsername.size() < 50 && ((inputEvent.text.unicode >= 65 && inputEvent.text.unicode <= 90) || (inputEvent.text.unicode >= 97 && inputEvent.text.unicode <= 122))) {
@@ -226,7 +239,7 @@ int main() {
                     sf::Text inputAccountHolderText("", font, 20);
                     inputAccountHolderText.setPosition(sf::Vector2f(300, 200));
                     sf::Text inputBalanceText("", font, 20);
-                    inputBalanceText.setPosition(sf::Vector2f(300, 250));
+                    inputBalanceText.setPosition(sf::Vector2f(300, 250);
 
                     bool inputting = true;
                     while (inputting) {
@@ -278,12 +291,12 @@ int main() {
                     sf::Text inputAccountHolderText("", font, 20);
                     inputAccountHolderText.setPosition(sf::Vector2f(300, 200));
                     sf::Text inputAmountText("", font, 20);
-                    inputAmountText.setPosition(sf::Vector2f(300, 250));
+                    inputAmountText.setPosition(sf::Vector2f(300, 250);
 
                     bool inputting = true;
                     while (inputting) {
                         window.clear();
-                        window.draw(title);
+                        window draw(title);
                         window.draw(instruction);
                         window.draw(accountHolderText);
                         window.draw(amountText);
@@ -310,8 +323,17 @@ int main() {
                                             Account* account = accounts.getAccount(accountHolder);
                                             if (account->deposit(amount)) {
                                                 inputting = false;
+                                            } else {
+                                                std::cerr << "Deposit failed: Invalid amount." << std::endl;
+                                                spdlog::error("Deposit failed: Invalid amount.");
                                             }
+                                        } else {
+                                            std::cerr << "Deposit failed: Account not found." << std::endl;
+                                            spdlog::error("Deposit failed: Account not found.");
                                         }
+                                    } else {
+                                        std::cerr << "Deposit failed: Please enter both account holder and amount." << std::endl;
+                                        spdlog::error("Deposit failed: Please enter both account holder and amount.");
                                     }
                                 } else {
                                     if (inputAccountHolder.size() < 50 && ((inputEvent.text.unicode >= 65 && inputEvent.text.unicode <= 90) || (inputEvent.text.unicode >= 97 && inputEvent.text.unicode <= 122))) {
@@ -335,7 +357,7 @@ int main() {
                     sf::Text inputAccountHolderText("", font, 20);
                     inputAccountHolderText.setPosition(sf::Vector2f(300, 200));
                     sf::Text inputAmountText("", font, 20);
-                    inputAmountText.setPosition(sf::Vector2f(300, 250));
+                    inputAmountText.setPosition(sf::Vector2f(300, 250);
 
                     bool inputting = true;
                     while (inputting) {
@@ -353,7 +375,7 @@ int main() {
                             if (inputEvent.type == sf::Event::TextEntered) {
                                 if (inputEvent.text.unicode == '\b') {
                                     if (!inputAccountHolder.empty()) {
-                                        inputAccountHolder.pop_back();
+                                        inputAccountHolder pop_back();
                                     }
                                     if (!inputAmount.empty()) {
                                         inputAmount.pop_back();
@@ -367,8 +389,17 @@ int main() {
                                             Account* account = accounts.getAccount(accountHolder);
                                             if (account->withdraw(amount)) {
                                                 inputting = false;
+                                            } else {
+                                                std::cerr << "Withdrawal failed: Insufficient balance or invalid amount." << std::endl;
+                                                spdlog::error("Withdrawal failed: Insufficient balance or invalid amount.");
                                             }
+                                        } else {
+                                            std::cerr << "Withdrawal failed: Account not found." << std::endl;
+                                            spdlog::error("Withdrawal failed: Account not found.");
                                         }
+                                    } else {
+                                        std::cerr << "Withdrawal failed: Please enter both account holder and amount." << std::endl;
+                                        spdlog::error("Withdrawal failed: Please enter both account holder and amount.");
                                     }
                                 } else {
                                     if (inputAccountHolder.size() < 50 && ((inputEvent.text.unicode >= 65 && inputEvent.text.unicode <= 90) || (inputEvent.text.unicode >= 97 && inputEvent.text.unicode <= 122))) {
@@ -396,7 +427,7 @@ int main() {
                     sf::Text inputDestinationAccountText("", font, 20);
                     inputDestinationAccountText.setPosition(sf::Vector2f(400, 250));
                     sf::Text inputAmountText("", font, 20);
-                    inputAmountText.setPosition(sf::Vector2f(300, 300));
+                    inputAmountText.setPosition(sf::Vector2f(300, 300);
 
                     bool inputting = true;
                     while (inputting) {
@@ -436,17 +467,26 @@ int main() {
 
                                             if (sourceAccount->transfer(*destinationAccount, amount)) {
                                                 inputting = false;
+                                            } else {
+                                                std::cerr << "Transfer failed: Insufficient balance or invalid amount." << std::endl;
+                                                spdlog::error("Transfer failed: Insufficient balance or invalid amount.");
                                             }
+                                        } else {
+                                            std::cerr << "Transfer failed: One or both accounts not found." << std::endl;
+                                            spdlog::error("Transfer failed: One or both accounts not found.");
                                         }
+                                    } else {
+                                        std::cerr << "Transfer failed: Please enter both account holders and amount." << std::endl;
+                                        spdlog::error("Transfer failed: Please enter both account holders and amount.");
                                     }
                                 } else {
                                     if (inputSourceAccount.size() < 50 && ((inputEvent.text.unicode >= 65 && inputEvent.text.unicode <= 90) || (inputEvent.text.unicode >= 97 && inputEvent.text.unicode <= 122))) {
                                         inputSourceAccount += static_cast<char>(inputEvent.text.unicode);
                                     }
-                                    if (inputDestinationAccount.size() < 50 && ((inputEvent.text.unicode >= 65 && inputEvent.text.unicode <= 90) || (inputEvent.text.unicode >= 97 && inputEvent.text.unicode <= 122))) {
+                                    if (inputDestinationAccount.size() < 50 && ((inputEvent.text.unicode >= 65 and inputEvent.text.unicode <= 90) or (inputEvent.text.unicode >= 97 and inputEvent.text.unicode <= 122))) {
                                         inputDestinationAccount += static_cast<char>(inputEvent.text.unicode);
                                     }
-                                    if (inputAmount.size() < 10 && (inputEvent.text.unicode == '.' || (inputEvent.text.unicode >= 48 && inputEvent.text.unicode <= 57))) {
+                                    if (inputAmount.size() < 10 && (inputEvent.text.unicode == '.' || (inputEvent.text.unicode >= 48 and inputEvent.text.unicode <= 57))) {
                                         inputAmount += static_cast<char>(inputEvent.text.unicode);
                                     }
                                 }
