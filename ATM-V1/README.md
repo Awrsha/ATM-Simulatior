@@ -1,6 +1,38 @@
-# Simple Banking System
+# ATM Simulator with C++ and SFML Graphics Library
 
-This is a simple banking system simulation created using C++ and the SFML (Simple and Fast Multimedia Library) for the graphical user interface. It allows users to create accounts, log in, deposit and withdraw money, and transfer funds between accounts.
+This is a simple ATM simulator program written in C++ language. The program allows the user to simulate ATM operations such as withdrawing money, depositing money, and transferring money between accounts. The program also includes a user login system and error handling for invalid inputs.
+
+## SFML
+SFML (Simple and Fast Multimedia Library) Graphics is a cross-platform multimedia library designed to provide a simple interface to various multimedia components such as graphics, audio, networking, and windowing system. It is written in C++ language and supports multiple programming languages including C, Python, and Java.
+
+SFML Graphics provides a powerful set of features for 2D graphics rendering. Its API is object-oriented and designed to be simple and intuitive, making it easy to create complex graphics applications with minimal effort. Some of the features provided by SFML Graphics include:
+
+- Support for hardware-accelerated graphics rendering using OpenGL and Direct3D.
+- Support for multiple window creation and management.
+- Support for loading and displaying various image formats such as PNG, JPEG, and BMP.
+- Support for drawing 2D shapes such as points, lines, rectangles, circles, and polygons.
+- Support for text rendering and manipulation.
+- Support for sprite sheets, animations, and transformations.
+- Support for shader programs to create advanced graphics effects.
+
+SFML Graphics is widely used in the game development industry due to its simplicity and performance. It is also used in other graphics-intensive applications such as simulations, visualizations, and user interfaces.
+## Requirements
+
+To run this program, you will need:
+- C++ compiler
+- SFML Graphics Library
+
+## Installation
+
+### Installing SFML Graphics Library
+
+1. Download the SFML library from the official website: [https://www.sfml-dev.org/download.php ↗](https://www.sfml-dev.org/download.php)
+2. Extract the downloaded file to a directory of your choice.
+3. Add the SFML library to your C++ project by following these steps:
+   - Open your IDE or text editor and create a new C++ project.
+   - Add the path to the SFML library include files to your project's include path.
+   - Add the path to the SFML library object files to your project's linker path.
+   - Link your project against the SFML library by adding the appropriate linker flags.
 
 ## Features
 
